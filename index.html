@@ -62,30 +62,16 @@
       .box .negative {
         color: #f44336; /* Red for negative price */
       }
-/* Responsive for smaller screens */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column; /* Change to column layout */
-    height: auto; /* Allow height to adjust to content */
-  }
 
-  .box {
-    width: 90%; /* Reduce width for better fit */
-    height: auto; /* Adjust height to content */
-    margin: 10px 0; /* Add vertical spacing between boxes */
-  }
-
-  .box h1 {
-    font-size: 12vw; /* Larger font for visibility on smaller screens */
-  }
-
-  .box h2 {
-    font-size: 4vw; /* Adjust font size */
-  }
-}
-
-      
-      
+      /* Responsive for smaller screens */
+      @media (max-width: 1200px) {
+        .box h1 {
+          font-size: 8vw;
+        }
+        .box h2 {
+          font-size: 3vw;
+        }
+      }
     </style>
   </head>
   <body>
@@ -152,7 +138,7 @@
           if (btcClass) btcElement.classList.add(btcClass);
 
           // Update the title with BTC price
-          document.title = `${Math.floor(btcPrice)}`;
+          document.title = `${Math.floor(btcPrice)}、${Math.floor(bnbPrice)}、${Math.floor(ethPrice)}`;
 
           // Update ETH price (integer only)
           const ethElement = document.getElementById("eth-price");
