@@ -62,16 +62,30 @@
       .box .negative {
         color: #f44336; /* Red for negative price */
       }
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Change to column layout */
+    height: auto; /* Allow height to adjust to content */
+  }
 
-      /* Responsive for smaller screens */
-      @media (max-width: 1200px) {
-        .box h1 {
-          font-size: 8vw;
-        }
-        .box h2 {
-          font-size: 3vw;
-        }
-      }
+  .box {
+    width: 90%; /* Reduce width for better fit */
+    height: auto; /* Adjust height to content */
+    margin: 10px 0; /* Add vertical spacing between boxes */
+  }
+
+  .box h1 {
+    font-size: 12vw; /* Larger font for visibility on smaller screens */
+  }
+
+  .box h2 {
+    font-size: 4vw; /* Adjust font size */
+  }
+}
+
+      
+      
     </style>
   </head>
   <body>
