@@ -163,6 +163,9 @@
                 const bgbClass = getPriceClass("BGB", bgbPrice);
                 if (bgbClass) bgbElement.classList.add(bgbClass);
 
+                // Update the title with the current prices
+                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(2)} ${bgbPrice.toFixed(4)}`;
+
                 // Save the current prices for comparison
                 previousPrices = {
                     BTC: btcPrice,
@@ -172,7 +175,7 @@
                 };
 
                 // Re-fetch prices every 1 second
-                setTimeout(updatePrices, 300);
+                setTimeout(updatePrices, 1000);
             }
 
             updatePrices();
