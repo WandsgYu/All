@@ -1,180 +1,183 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading BTC Price...</title>
     <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #121212;
-        font-family: "Arial", sans-serif;
-      }
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #121212;
+            font-family: "Arial", sans-serif;
+        }
 
-      .container {
-        display: flex;
-        flex-wrap: wrap;
-        width: 80vw;
-        height: 80vh;
-        justify-content: space-between;
-        align-items: center;
-      }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 80vw;
+            height: 80vh;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-      .box {
-        width: 45%;
-        height: 45%;
-        background-color: #1e1e1e;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 15px;
-        margin: 15px;
-        box-sizing: border-box;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
+        .box {
+            width: 45%;
+            height: 45%;
+            background-color: #1e1e1e;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            margin: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
 
-      .box h1 {
-        font-size: 6vw;
-        margin: 0;
-        font-weight: bold;
-        transition: color 0.15s ease-in-out;
-      }
-
-      .box h2 {
-        font-size: 2vw;
-        margin-top: 10px;
-        color: #888;
-      }
-
-      .box .positive {
-        color: #00c853; /* Green for positive price */
-      }
-
-      .box .negative {
-        color: #f44336; /* Red for negative price */
-      }
-
-      /* Responsive for smaller screens */
-      @media (max-width: 1200px) {
         .box h1 {
-          font-size: 8vw;
+            font-size: 6vw;
+            margin: 0;
+            font-weight: bold;
+            transition: color 0.15s ease-in-out;
         }
+
         .box h2 {
-          font-size: 3vw;
+            font-size: 2vw;
+            margin-top: 10px;
+            color: #888;
         }
-      }
+
+        .box .positive {
+            color: #00c853;
+        }
+
+        .box .negative {
+            color: #f44336;
+        }
+
+        @media (max-width: 1200px) {
+            .box h1 {
+                font-size: 8vw;
+            }
+
+            .box h2 {
+                font-size: 3vw;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container">
-      <div class="box" id="btc">
-        <h1 id="btc-price">Loading...</h1>
-        <h2>BTC</h2>
-      </div>
-      <div class="box" id="eth">
-        <h1 id="eth-price">Loading...</h1>
-        <h2>ETH</h2>
-      </div>
-      <div class="box" id="bnb">
-        <h1 id="bnb-price">Loading...</h1>
-        <h2>BNB</h2>
-      </div>
-      <div class="box" id="doge">
-        <h1 id="doge-price">Loading...</h1>
-        <h2>DOGE</h2>
-      </div>
+        <div class="box" id="btc">
+            <h1 id="btc-price">Loading...</h1>
+            <h2>BTC</h2>
+        </div>
+        <div class="box" id="eth">
+            <h1 id="eth-price">Loading...</h1>
+            <h2>ETH</h2>
+        </div>
+        <div class="box" id="bnb">
+            <h1 id="bnb-price">Loading...</h1>
+            <h2>BNB</h2>
+        </div>
+        <div class="box" id="bgb">
+            <h1 id="bgb-price">Loading...</h1>
+            <h2>BGB</h2>
+        </div>
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const apiUrl =
-          "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
-        let previousPrices = {
-          BTC: null,
-          ETH: null,
-          BNB: null,
-          DOGE: null,
-        };
+        document.addEventListener("DOMContentLoaded", function () {
+            const apiUrlBase = "https://api.bitget.com/api/mix/v1/market/ticker?symbol=";
+            let previousPrices = {
+                BTC: null,
+                ETH: null,
+                BNB: null,
+                BGB: null,
+            };
 
-        async function fetchPrice(symbol) {
-          try {
-            const response = await fetch(apiUrl + symbol);
-            const data = await response.json();
-            return parseFloat(data.price);
-          } catch (error) {
-            console.error("Error fetching price for", symbol, error);
-            return "N/A";
-          }
-        }
+            async function fetchPrice(symbol) {
+                try {
+                    const response = await fetch(`${apiUrlBase}${symbol}USDT_UMCBL`);
+                    const data = await response.json();
+                    return parseFloat(data.data.last);
+                } catch (error) {
+                    console.error("Error fetching price:", error);
+                    return null;
+                }
+            }
 
-        function getPriceClass(symbol, currentPrice) {
-          const previousPrice = previousPrices[symbol];
-          if (previousPrice === null) return ""; // First load, no class yet
-          if (currentPrice > previousPrice) return "positive"; // Price increased
-          if (currentPrice < previousPrice) return "negative"; // Price decreased
-          return ""; // No change, keep previous color
-        }
+            function getPriceClass(symbol, currentPrice) {
+                const previousPrice = previousPrices[symbol];
+                if (previousPrice === null) return "";
+                if (currentPrice > previousPrice) return "positive";
+                if (currentPrice < previousPrice) return "negative";
+                return "";
+            }
 
-        async function updatePrices() {
-          const btcPrice = await fetchPrice("BTCUSDT");
-          const ethPrice = await fetchPrice("ETHUSDT");
-          const bnbPrice = await fetchPrice("BNBUSDT");
-          const dogePrice = await fetchPrice("DOGEUSDT");
+            async function updatePrices() {
+                const btcPrice = await fetchPrice("BTC");
+                const ethPrice = await fetchPrice("ETH");
+                const bnbPrice = await fetchPrice("BNB");
+                const bgbPrice = await fetchPrice("BGB");
 
-          // Update BTC price (integer only)
-          const btcElement = document.getElementById("btc-price");
-          btcElement.textContent = Math.floor(btcPrice); // Only integer part
-          btcElement.className = "positive"; // Reset class first
-          const btcClass = getPriceClass("BTC", btcPrice);
-          if (btcClass) btcElement.classList.add(btcClass);
+                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null) {
+                    document.getElementById("btc-price").textContent = "Error fetching data";
+                    document.getElementById("eth-price").textContent = "Error fetching data";
+                    document.getElementById("bnb-price").textContent = "Error fetching data";
+                    document.getElementById("bgb-price").textContent = "Error fetching data";
+                    return;
+                }
 
-          // Update the title with BTC price
-          document.title = `${Math.floor(btcPrice)}、${Math.floor(bnbPrice)}、${Math.floor(ethPrice)}`;
+                // Update BTC price
+                const btcElement = document.getElementById("btc-price");
+                btcElement.textContent = Math.floor(btcPrice);
+                const btcClass = getPriceClass("BTC", btcPrice);
+                if (btcClass) btcElement.classList.add(btcClass);
 
-          // Update ETH price (integer only)
-          const ethElement = document.getElementById("eth-price");
-          ethElement.textContent = Math.floor(ethPrice); // Only integer part
-          ethElement.className = "positive"; // Reset class first
-          const ethClass = getPriceClass("ETH", ethPrice);
-          if (ethClass) ethElement.classList.add(ethClass);
+                // Update ETH price
+                const ethElement = document.getElementById("eth-price");
+                ethElement.textContent = Math.floor(ethPrice);
+                const ethClass = getPriceClass("ETH", ethPrice);
+                if (ethClass) ethElement.classList.add(ethClass);
 
-          // Update BNB price (no format change)
-          const bnbElement = document.getElementById("bnb-price");
-          bnbElement.textContent = bnbPrice.toFixed(2); // Two decimal points
-          bnbElement.className = "positive"; // Reset class first
-          const bnbClass = getPriceClass("BNB", bnbPrice);
-          if (bnbClass) bnbElement.classList.add(bnbClass);
+                // Update BNB price
+                const bnbElement = document.getElementById("bnb-price");
+                bnbElement.textContent = bnbPrice.toFixed(2);
+                const bnbClass = getPriceClass("BNB", bnbPrice);
+                if (bnbClass) bnbElement.classList.add(bnbClass);
 
-          // Update DOGE price (4 decimal places)
-          const dogeElement = document.getElementById("doge-price");
-          dogeElement.textContent = dogePrice.toFixed(4); // Four decimal places
-          dogeElement.className = "positive"; // Reset class first
-          const dogeClass = getPriceClass("DOGE", dogePrice);
-          if (dogeClass) dogeElement.classList.add(dogeClass);
+                // Update BGB price
+                const bgbElement = document.getElementById("bgb-price");
+                bgbElement.textContent = bgbPrice.toFixed(4);
+                const bgbClass = getPriceClass("BGB", bgbPrice);
+                if (bgbClass) bgbElement.classList.add(bgbClass);
 
-          // Save the current prices for comparison in the next update
-          previousPrices = {
-            BTC: btcPrice,
-            ETH: ethPrice,
-            BNB: bnbPrice,
-            DOGE: dogePrice,
-          };
+                // Save the current prices for comparison
+                previousPrices = {
+                    BTC: btcPrice,
+                    ETH: ethPrice,
+                    BNB: bnbPrice,
+                    BGB: bgbPrice,
+                };
 
-          // Re-fetch prices every 1 second
-          setTimeout(updatePrices, 1000);
-        }
+                // Re-fetch prices every 1 second
+                setTimeout(updatePrices, 300);
+            }
 
-        updatePrices();
-      });
+            updatePrices();
+        });
     </script>
-  </body>
+</body>
+
 </html>
