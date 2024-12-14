@@ -44,7 +44,7 @@
         }
 
         .box h1 {
-            font-size: 6vw;
+            font-size: 8vw; /* PC端价格数字更大 */
             margin: 0;
             font-weight: bold;
             transition: color 0.15s ease-in-out;
@@ -64,13 +64,25 @@
             color: #f44336;
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 768px) {
+            .container {
+                width: 100vw;
+                height: 100vh;
+                padding: 10px;
+            }
+
+            .box {
+                width: 48%; /* 调整宽度以适配手机 */
+                height: 48%; /* 保持 2x2 布局 */
+                margin: 5px;
+            }
+
             .box h1 {
-                font-size: 8vw;
+                font-size: 10vw; /* 手机端价格数字更大 */
             }
 
             .box h2 {
-                font-size: 3vw;
+                font-size: 4vw; /* 调整标签字体大小 */
             }
         }
     </style>
