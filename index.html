@@ -66,15 +66,18 @@
 
         @media (max-width: 768px) {
             .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* 强制 2x2 布局 */
+                gap: 10px; /* 控制间距 */
                 width: 100vw;
                 height: 100vh;
                 padding: 10px;
             }
 
             .box {
-                width: 48%; /* 调整宽度以适配手机 */
-                height: 48%; /* 保持 2x2 布局 */
-                margin: 5px;
+                width: 100%; /* 网格布局自动管理宽度 */
+                height: 100%; /* 自适应高度 */
+                margin: 0; /* 移除额外的 margin */
             }
 
             .box h1 {
