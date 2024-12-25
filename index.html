@@ -168,13 +168,13 @@
 
                 // Update BNB price
                 const bnbElement = document.getElementById("bnb-price");
-                bnbElement.textContent = bnbPrice.toFixed(2);
+                bnbElement.textContent = bnbPrice.toFixed(1);
                 const bnbClass = getPriceClass("BNB", bnbPrice);
                 if (bnbClass) bnbElement.classList.add(bnbClass);
 
                 // Update BGB price
                 const bgbElement = document.getElementById("bgb-price");
-                bgbElement.textContent = bgbPrice.toFixed(4);
+                bgbElement.textContent = bgbPrice.toFixed(2);
                 const bgbClass = getPriceClass("BGB", bgbPrice);
                 if (bgbClass) bgbElement.classList.add(bgbClass);
 
