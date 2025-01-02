@@ -109,6 +109,14 @@
             <h1 id="bgb-price">Loading...</h1>
             <h2>BGB</h2>
         </div>
+        <div class="box" id="doge">
+            <h1 id="doge-price">Loading...</h1>
+            <h2>DOGE</h2>
+        </div>
+        <div class="box" id="xrp">
+            <h1 id="xrp-price">Loading...</h1>
+            <h2>XRP</h2>
+        </div>
     </div>
 
     <script>
@@ -119,6 +127,8 @@
                 ETH: null,
                 BNB: null,
                 BGB: null,
+                DOGE: null,
+                XRP: null
             };
 
             async function fetchPrice(symbol) {
@@ -145,12 +155,16 @@
                 const ethPrice = await fetchPrice("ETH");
                 const bnbPrice = await fetchPrice("BNB");
                 const bgbPrice = await fetchPrice("BGB");
+                const dogePrice = await fetchPrice("DOGE");
+                const xrpPrice = await fetchPrice("XRP");
 
-                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null) {
+                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null || dogePrice === null || xrpPrice === null) {
                     document.getElementById("btc-price").textContent = "Error fetching data";
                     document.getElementById("eth-price").textContent = "Error fetching data";
                     document.getElementById("bnb-price").textContent = "Error fetching data";
                     document.getElementById("bgb-price").textContent = "Error fetching data";
+                    document.getElementById("doge-price").textContent = "Error fetching data";
+                    document.getElementById("xrp-price").textContent = "Error fetching data";
                     return;
                 }
 
@@ -178,8 +192,20 @@
                 const bgbClass = getPriceClass("BGB", bgbPrice);
                 if (bgbClass) bgbElement.classList.add(bgbClass);
 
+                // Update DOGE price
+                const dogeElement = document.getElementById("doge-price");
+                dogeElement.textContent = dogePrice.toFixed(2);
+                const dogeClass = getPriceClass("DOGE", dogePrice);
+                if (dogeClass) dogeElement.classList.add(dogeClass);
+
+                // Update XRP price
+                const xrpElement = document.getElementById("xrp-price");
+                xrpElement.textContent = xrpPrice.toFixed(2);
+                const xrpClass = getPriceClass("XRP", xrpPrice);
+                if (xrpClass) xrpElement.classList.add(xrpClass);
+
                 // Update the title with the current prices
-                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)}`;
+                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(2)} ${xrpPrice.toFixed(2)}`;
 
                 // Save the current prices for comparison
                 previousPrices = {
@@ -187,6 +213,8 @@
                     ETH: ethPrice,
                     BNB: bnbPrice,
                     BGB: bgbPrice,
+                    DOGE: dogePrice,
+                    XRP: xrpPrice
                 };
 
                 // Re-fetch prices every 1 second
