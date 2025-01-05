@@ -194,7 +194,7 @@
 
                 // Update DOGE price
                 const dogeElement = document.getElementById("doge-price");
-                dogeElement.textContent = dogePrice.toFixed(2);
+                dogeElement.textContent = dogePrice.toFixed(3);
                 const dogeClass = getPriceClass("DOGE", dogePrice);
                 if (dogeClass) dogeElement.classList.add(dogeClass);
 
@@ -205,7 +205,7 @@
                 if (xrpClass) xrpElement.classList.add(xrpClass);
 
                 // Update the title with the current prices
-                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(2)} ${xrpPrice.toFixed(2)}`;
+                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(3)} ${xrpPrice.toFixed(2)}`;
 
                 // Save the current prices for comparison
                 previousPrices = {
