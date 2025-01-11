@@ -113,9 +113,9 @@
             <h1 id="doge-price">Loading...</h1>
             <h2>DOGE</h2>
         </div>
-        <div class="box" id="xrp">
-            <h1 id="xrp-price">Loading...</h1>
-            <h2>XRP</h2>
+        <div class="box" id="SUI">
+            <h1 id="SUI-price">Loading...</h1>
+            <h2>SUI</h2>
         </div>
     </div>
 
@@ -128,7 +128,7 @@
                 BNB: null,
                 BGB: null,
                 DOGE: null,
-                XRP: null
+                SUI: null
             };
 
             async function fetchPrice(symbol) {
@@ -156,15 +156,15 @@
                 const bnbPrice = await fetchPrice("BNB");
                 const bgbPrice = await fetchPrice("BGB");
                 const dogePrice = await fetchPrice("DOGE");
-                const xrpPrice = await fetchPrice("XRP");
+                const SUIPrice = await fetchPrice("SUI");
 
-                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null || dogePrice === null || xrpPrice === null) {
+                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null || dogePrice === null || SUIPrice === null) {
                     document.getElementById("btc-price").textContent = "Error";
                     document.getElementById("eth-price").textContent = "Error";
                     document.getElementById("bnb-price").textContent = "Error";
                     document.getElementById("bgb-price").textContent = "Error";
                     document.getElementById("doge-price").textContent = "Error";
-                    document.getElementById("xrp-price").textContent = "Error";
+                    document.getElementById("SUI-price").textContent = "Error";
                     return;
                 }
 
@@ -198,14 +198,14 @@
                 const dogeClass = getPriceClass("DOGE", dogePrice);
                 if (dogeClass) dogeElement.classList.add(dogeClass);
 
-                // Update XRP price
-                const xrpElement = document.getElementById("xrp-price");
-                xrpElement.textContent = xrpPrice.toFixed(2);
-                const xrpClass = getPriceClass("XRP", xrpPrice);
-                if (xrpClass) xrpElement.classList.add(xrpClass);
+                // Update SUI price
+                const SUIElement = document.getElementById("SUI-price");
+                SUIElement.textContent = SUIPrice.toFixed(2);
+                const SUIClass = getPriceClass("SUI", SUIPrice);
+                if (SUIClass) SUIElement.classList.add(SUIClass);
 
                 // Update the title with the current prices
-                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(3)} ${xrpPrice.toFixed(2)}`;
+                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(3)} ${SUIPrice.toFixed(2)}`;
 
                 // Save the current prices for comparison
                 previousPrices = {
@@ -214,7 +214,7 @@
                     BNB: bnbPrice,
                     BGB: bgbPrice,
                     DOGE: dogePrice,
-                    XRP: xrpPrice
+                    SUI: SUIPrice
                 };
 
                 // Re-fetch prices every 1 second
