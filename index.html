@@ -194,11 +194,11 @@
                     { id: "eth", symbol: "ETH", price: Math.floor(ethPrice) },
                     { id: "sol", symbol: "SOL", price: Math.floor(solPrice) },
                     { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice) },
-                    { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(1) },
+                    { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(2) },
                     { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
                     { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
-                    { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(1) },
-                    { id: "xrp", symbol: "XRP", price: xrpPrice.toFixed(1) }
+                    { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(2) },
+                    { id: "xrp", symbol: "XRP", price: xrpPrice.toFixed(2) }
                 ];
 
                 coins.forEach(({ id, symbol, price }) => {
@@ -207,6 +207,9 @@
                     const priceClass = getPriceClass(symbol, price);
                     if (priceClass) priceElement.classList.add(priceClass);
                 });
+
+                // Update the title with BTC, BGB, BNB prices
+                document.title = `${Math.floor(btcPrice)} ${bgbPrice.toFixed(2)} ${Math.floor(bnbPrice)}`;
 
                 // Save the current prices for comparison
                 previousPrices = {
