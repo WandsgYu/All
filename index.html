@@ -19,17 +19,18 @@
         }
 
         .container {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 设置3列布局 */
+            grid-gap: 15px; /* 设置格子之间的间距 */
             width: 80vw;
             height: 80vh;
-            justify-content: space-between;
+            justify-items: center;
             align-items: center;
         }
 
         .box {
-            width: 45%;
-            height: 45%;
+            width: 90%; /* 适应容器宽度 */
+            height: 90%; /* 适应容器高度 */
             background-color: #1e1e1e;
             color: #fff;
             display: flex;
@@ -37,14 +38,13 @@
             justify-content: center;
             align-items: center;
             border-radius: 15px;
-            margin: 15px;
             box-sizing: border-box;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .box h1 {
-            font-size: 8vw; /* PC端价格数字更大 */
+            font-size: 6vw; /* 调整价格数字的字号 */
             margin: 0;
             font-weight: bold;
             transition: color 0.15s ease-in-out;
@@ -66,8 +66,7 @@
 
         @media (max-width: 768px) {
             .container {
-                display: grid;
-                grid-template-columns: 1fr 1fr; /* 强制 2x2 布局 */
+                grid-template-columns: 1fr 1fr 1fr; /* 强制3列布局 */
                 gap: 10px; /* 控制间距 */
                 width: 100vw;
                 height: 100vh;
@@ -81,7 +80,7 @@
             }
 
             .box h1 {
-                font-size: 10vw; /* 手机端价格数字更大 */
+                font-size: 8vw; /* 手机端价格数字更大 */
             }
 
             .box h2 {
@@ -101,6 +100,10 @@
             <h1 id="eth-price">Loading...</h1>
             <h2>ETH</h2>
         </div>
+        <div class="box" id="sol">
+            <h1 id="sol-price">Loading...</h1>
+            <h2>SOL</h2>
+        </div>
         <div class="box" id="bnb">
             <h1 id="bnb-price">Loading...</h1>
             <h2>BNB</h2>
@@ -108,6 +111,10 @@
         <div class="box" id="bgb">
             <h1 id="bgb-price">Loading...</h1>
             <h2>BGB</h2>
+        </div>
+        <div class="box" id="trump">
+            <h1 id="trump-price">Loading...</h1>
+            <h2>TRUMP</h2>
         </div>
         <div class="box" id="doge">
             <h1 id="doge-price">Loading...</h1>
@@ -117,6 +124,10 @@
             <h1 id="SUI-price">Loading...</h1>
             <h2>SUI</h2>
         </div>
+        <div class="box" id="xrp">
+            <h1 id="xrp-price">Loading...</h1>
+            <h2>XRP</h2>
+        </div>
     </div>
 
     <script>
@@ -125,10 +136,13 @@
             let previousPrices = {
                 BTC: null,
                 ETH: null,
+                SOL: null,
                 BNB: null,
                 BGB: null,
+                TRUMP: null,
                 DOGE: null,
-                SUI: null
+                SUI: null,
+                XRP: null
             };
 
             async function fetchPrice(symbol) {
@@ -153,68 +167,58 @@
             async function updatePrices() {
                 const btcPrice = await fetchPrice("BTC");
                 const ethPrice = await fetchPrice("ETH");
+                const solPrice = await fetchPrice("SOL");
                 const bnbPrice = await fetchPrice("BNB");
                 const bgbPrice = await fetchPrice("BGB");
+                const trumpPrice = await fetchPrice("TRUMP");
                 const dogePrice = await fetchPrice("DOGE");
                 const SUIPrice = await fetchPrice("SUI");
+                const xrpPrice = await fetchPrice("XRP");
 
-                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null || dogePrice === null || SUIPrice === null) {
+                if (btcPrice === null || ethPrice === null || solPrice === null || bnbPrice === null || bgbPrice === null || trumpPrice === null || dogePrice === null || SUIPrice === null || xrpPrice === null) {
                     document.getElementById("btc-price").textContent = "Error";
                     document.getElementById("eth-price").textContent = "Error";
+                    document.getElementById("sol-price").textContent = "Error";
                     document.getElementById("bnb-price").textContent = "Error";
                     document.getElementById("bgb-price").textContent = "Error";
+                    document.getElementById("trump-price").textContent = "Error";
                     document.getElementById("doge-price").textContent = "Error";
                     document.getElementById("SUI-price").textContent = "Error";
+                    document.getElementById("xrp-price").textContent = "Error";
                     return;
                 }
 
-                // Update BTC price
-                const btcElement = document.getElementById("btc-price");
-                btcElement.textContent = Math.floor(btcPrice);
-                const btcClass = getPriceClass("BTC", btcPrice);
-                if (btcClass) btcElement.classList.add(btcClass);
+                // Update prices for each coin with specified decimal places
+                const coins = [
+                    { id: "btc", symbol: "BTC", price: Math.floor(btcPrice) },
+                    { id: "eth", symbol: "ETH", price: Math.floor(ethPrice) },
+                    { id: "sol", symbol: "SOL", price: Math.floor(solPrice) },
+                    { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice) },
+                    { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(1) },
+                    { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
+                    { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
+                    { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(1) },
+                    { id: "xrp", symbol: "XRP", price: xrpPrice.toFixed(1) }
+                ];
 
-                // Update ETH price
-                const ethElement = document.getElementById("eth-price");
-                ethElement.textContent = Math.floor(ethPrice);
-                const ethClass = getPriceClass("ETH", ethPrice);
-                if (ethClass) ethElement.classList.add(ethClass);
-
-                // Update BNB price
-                const bnbElement = document.getElementById("bnb-price");
-                bnbElement.textContent = bnbPrice.toFixed(0);
-                const bnbClass = getPriceClass("BNB", bnbPrice);
-                if (bnbClass) bnbElement.classList.add(bnbClass);
-
-                // Update BGB price
-                const bgbElement = document.getElementById("bgb-price");
-                bgbElement.textContent = bgbPrice.toFixed(2);
-                const bgbClass = getPriceClass("BGB", bgbPrice);
-                if (bgbClass) bgbElement.classList.add(bgbClass);
-
-                // Update DOGE price
-                const dogeElement = document.getElementById("doge-price");
-                dogeElement.textContent = dogePrice.toFixed(3);
-                const dogeClass = getPriceClass("DOGE", dogePrice);
-                if (dogeClass) dogeElement.classList.add(dogeClass);
-
-                // Update SUI price
-                const SUIElement = document.getElementById("SUI-price");
-                SUIElement.textContent = SUIPrice.toFixed(2);
-                const SUIClass = getPriceClass("SUI", SUIPrice);
-                if (SUIClass) SUIElement.classList.add(SUIClass);
-
-                // Update the title with the current prices
-                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(3)} ${SUIPrice.toFixed(2)}`;
+                coins.forEach(({ id, symbol, price }) => {
+                    const priceElement = document.getElementById(`${id}-price`);
+                    priceElement.textContent = price;
+                    const priceClass = getPriceClass(symbol, price);
+                    if (priceClass) priceElement.classList.add(priceClass);
+                });
 
                 // Save the current prices for comparison
                 previousPrices = {
                     BTC: btcPrice,
                     ETH: ethPrice,
+                    SOL: solPrice,
                     BNB: bnbPrice,
                     BGB: bgbPrice,
+                    TRUMP: trumpPrice,
                     DOGE: dogePrice,
-                    SUI: SUIPrice
+                    SUI: SUIPrice,
+                    XRP: xrpPrice
                 };
 
                 // Re-fetch prices every 1 second
