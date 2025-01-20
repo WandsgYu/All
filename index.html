@@ -124,9 +124,9 @@
             <h1 id="SUI-price">Loading...</h1>
             <h2>SUI</h2>
         </div>
-        <div class="box" id="xrp">
-            <h1 id="xrp-price">Loading...</h1>
-            <h2>XRP</h2>
+        <div class="box" id="MELANIA">
+            <h1 id="MELANIA-price">Loading...</h1>
+            <h2>MELANIA</h2>
         </div>
     </div>
 
@@ -142,7 +142,7 @@
                 TRUMP: null,
                 DOGE: null,
                 SUI: null,
-                XRP: null
+                MELANIA: null
             };
 
             async function fetchPrice(symbol) {
@@ -173,9 +173,9 @@
                 const trumpPrice = await fetchPrice("TRUMP");
                 const dogePrice = await fetchPrice("DOGE");
                 const SUIPrice = await fetchPrice("SUI");
-                const xrpPrice = await fetchPrice("XRP");
+                const MELANIAPrice = await fetchPrice("MELANIA");
 
-                if (btcPrice === null || ethPrice === null || solPrice === null || bnbPrice === null || bgbPrice === null || trumpPrice === null || dogePrice === null || SUIPrice === null || xrpPrice === null) {
+                if (btcPrice === null || ethPrice === null || solPrice === null || bnbPrice === null || bgbPrice === null || trumpPrice === null || dogePrice === null || SUIPrice === null || MELANIAPrice === null) {
                     document.getElementById("btc-price").textContent = "Error";
                     document.getElementById("eth-price").textContent = "Error";
                     document.getElementById("sol-price").textContent = "Error";
@@ -184,7 +184,7 @@
                     document.getElementById("trump-price").textContent = "Error";
                     document.getElementById("doge-price").textContent = "Error";
                     document.getElementById("SUI-price").textContent = "Error";
-                    document.getElementById("xrp-price").textContent = "Error";
+                    document.getElementById("MELANIA-price").textContent = "Error";
                     return;
                 }
 
@@ -198,7 +198,7 @@
                     { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
                     { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
                     { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(2) },
-                    { id: "xrp", symbol: "XRP", price: xrpPrice.toFixed(2) }
+                    { id: "MELANIA", symbol: "MELANIA", price: MELANIAPrice.toFixed(2) }
                 ];
 
                 coins.forEach(({ id, symbol, price }) => {
@@ -221,7 +221,7 @@
                     TRUMP: trumpPrice,
                     DOGE: dogePrice,
                     SUI: SUIPrice,
-                    XRP: xrpPrice
+                    MELANIA: MELANIAPrice
                 };
 
                 // Re-fetch prices every 1 second
