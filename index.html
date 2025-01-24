@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading BTC Price...</title>
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         body,
         html {
@@ -12,16 +14,27 @@
             padding: 0;
             height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background-color: #121212;
             font-family: "Arial", sans-serif;
         }
 
+        .header {
+            color: #fff;
+            font-size: 2.5vw;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Dancing Script', cursive; /* 应用花哨字体 */
+            font-weight: 700; /* 加粗 */
+        }
+
+        /* 其他样式保持不变 */
         .container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 设置3列布局 */
-            grid-gap: 15px; /* 设置格子之间的间距 */
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 15px;
             width: 80vw;
             height: 80vh;
             justify-items: center;
@@ -29,8 +42,8 @@
         }
 
         .box {
-            width: 90%; /* 适应容器宽度 */
-            height: 90%; /* 适应容器高度 */
+            width: 90%;
+            height: 90%;
             background-color: #1e1e1e;
             color: #fff;
             display: flex;
@@ -44,7 +57,7 @@
         }
 
         .box h1 {
-            font-size: 6vw; /* 调整价格数字的字号 */
+            font-size: 6vw;
             margin: 0;
             font-weight: bold;
             transition: color 0.15s ease-in-out;
@@ -64,33 +77,49 @@
             color: #f44336;
         }
 
+        .footer {
+            color: #fff;
+            font-size: 2vw;
+            margin-top: 20px;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .container {
-                grid-template-columns: 1fr 1fr 1fr; /* 强制3列布局 */
-                gap: 10px; /* 控制间距 */
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
                 width: 100vw;
                 height: 100vh;
                 padding: 10px;
             }
 
             .box {
-                width: 100%; /* 网格布局自动管理宽度 */
-                height: 100%; /* 自适应高度 */
-                margin: 0; /* 移除额外的 margin */
+                width: 100%;
+                height: 100%;
+                margin: 0;
             }
 
             .box h1 {
-                font-size: 8vw; /* 手机端价格数字更大 */
+                font-size: 8vw;
             }
 
             .box h2 {
-                font-size: 4vw; /* 调整标签字体大小 */
+                font-size: 4vw;
+            }
+
+            .header {
+                font-size: 5vw;
+            }
+
+            .footer {
+                font-size: 4vw;
             }
         }
     </style>
 </head>
 
 <body>
+       <div class="footer" id="profit">Loading</div>
     <div class="container">
         <div class="box" id="btc">
             <h1 id="btc-price">Loading...</h1>
@@ -129,6 +158,8 @@
             <h2>MELANIA</h2>
         </div>
     </div>
+    <div class="header">Trust your judgment.</div>
+    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -143,6 +174,15 @@
                 DOGE: null,
                 SUI: null,
                 MELANIA: null
+            };
+
+            // 仓位信息
+            const position = {
+                symbol: "BGB",
+                type: "long", // 开多
+                quantity: 276, // 持仓量
+                entryPrice: 7.33, // 开仓价
+                exchangeRate: 7.22 // 汇率
             };
 
             async function fetchPrice(symbol) {
@@ -162,6 +202,12 @@
                 if (currentPrice > previousPrice) return "positive";
                 if (currentPrice < previousPrice) return "negative";
                 return "";
+            }
+
+            // 计算仓位收益
+            function calculateProfit(currentPrice) {
+                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate+2216;
+                return profit.toFixed(0); // 保留两位小数
             }
 
             async function updatePrices() {
@@ -185,6 +231,7 @@
                     document.getElementById("doge-price").textContent = "Error";
                     document.getElementById("SUI-price").textContent = "Error";
                     document.getElementById("MELANIA-price").textContent = "Error";
+                    document.getElementById("profit").textContent = "仓位收益：数据错误";
                     return;
                 }
 
@@ -194,7 +241,7 @@
                     { id: "eth", symbol: "ETH", price: Math.floor(ethPrice) },
                     { id: "sol", symbol: "SOL", price: Math.floor(solPrice) },
                     { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice) },
-                    { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(2) },
+                    { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3) }, // BGB价格精确到小数点后三位
                     { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
                     { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
                     { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(2) },
@@ -208,8 +255,12 @@
                     if (priceClass) priceElement.classList.add(priceClass);
                 });
 
+                // 更新仓位收益
+                const profit = calculateProfit(bgbPrice);
+                document.getElementById("profit").textContent = `${profit}`;
+
                 // Update the title with BTC, BGB, BNB prices
-                document.title = `${Math.floor(btcPrice)} ${bgbPrice.toFixed(2)} ${Math.floor(bnbPrice)}`;
+                document.title = `${Math.floor(btcPrice)} ${bgbPrice.toFixed(3)} ${Math.floor(bnbPrice)}`;
 
                 // Save the current prices for comparison
                 previousPrices = {
@@ -224,7 +275,7 @@
                     MELANIA: MELANIAPrice
                 };
 
-                // Re-fetch prices every 1 second
+                // Re-fetch prices every 500ms
                 setTimeout(updatePrices, 500);
             }
 
