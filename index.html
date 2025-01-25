@@ -149,9 +149,9 @@
             <h1 id="doge-price">Loading...</h1>
             <h2>DOGE</h2>
         </div>
-        <div class="box" id="SUI">
-            <h1 id="SUI-price">Loading...</h1>
-            <h2>SUI</h2>
+        <div class="box" id="VINE">
+            <h1 id="VINE-price">Loading...</h1>
+            <h2>VINE</h2>
         </div>
         <div class="box" id="MELANIA">
             <h1 id="MELANIA-price">Loading...</h1>
@@ -172,7 +172,7 @@
                 BGB: null,
                 TRUMP: null,
                 DOGE: null,
-                SUI: null,
+                VINE: null,
                 MELANIA: null
             };
 
@@ -180,8 +180,8 @@
             const position = {
                 symbol: "BGB",
                 type: "long", // 开多
-                quantity: 276, // 持仓量
-                entryPrice: 7.33, // 开仓价
+                quantity: 202, // 持仓量
+                entryPrice: 7.656, // 开仓价
                 exchangeRate: 7.22 // 汇率
             };
 
@@ -206,7 +206,7 @@
 
             // 计算仓位收益
             function calculateProfit(currentPrice) {
-                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate+2216;
+                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate+2769;
                 return profit.toFixed(0); // 保留两位小数
             }
 
@@ -218,10 +218,10 @@
                 const bgbPrice = await fetchPrice("BGB");
                 const trumpPrice = await fetchPrice("TRUMP");
                 const dogePrice = await fetchPrice("DOGE");
-                const SUIPrice = await fetchPrice("SUI");
+                const VINEPrice = await fetchPrice("VINE");
                 const MELANIAPrice = await fetchPrice("MELANIA");
 
-                if (btcPrice === null || ethPrice === null || solPrice === null || bnbPrice === null || bgbPrice === null || trumpPrice === null || dogePrice === null || SUIPrice === null || MELANIAPrice === null) {
+                if (btcPrice === null || ethPrice === null || solPrice === null || bnbPrice === null || bgbPrice === null || trumpPrice === null || dogePrice === null || VINEPrice === null || MELANIAPrice === null) {
                     document.getElementById("btc-price").textContent = "Error";
                     document.getElementById("eth-price").textContent = "Error";
                     document.getElementById("sol-price").textContent = "Error";
@@ -229,7 +229,7 @@
                     document.getElementById("bgb-price").textContent = "Error";
                     document.getElementById("trump-price").textContent = "Error";
                     document.getElementById("doge-price").textContent = "Error";
-                    document.getElementById("SUI-price").textContent = "Error";
+                    document.getElementById("VINE-price").textContent = "Error";
                     document.getElementById("MELANIA-price").textContent = "Error";
                     document.getElementById("profit").textContent = "仓位收益：数据错误";
                     return;
@@ -244,7 +244,7 @@
                     { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3) }, // BGB价格精确到小数点后三位
                     { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
                     { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
-                    { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(2) },
+                    { id: "VINE", symbol: "VINE", price: VINEPrice.toFixed(3) },
                     { id: "MELANIA", symbol: "MELANIA", price: MELANIAPrice.toFixed(2) }
                 ];
 
@@ -271,7 +271,7 @@
                     BGB: bgbPrice,
                     TRUMP: trumpPrice,
                     DOGE: dogePrice,
-                    SUI: SUIPrice,
+                    VINE: VINEPrice,
                     MELANIA: MELANIAPrice
                 };
 
