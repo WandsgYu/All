@@ -204,8 +204,8 @@
             const position = {
                 symbol: "BGB",
                 type: "long", // 开多
-                quantity: 100, // 持仓量
-                entryPrice: 7.728, // 开仓价
+                quantity: 510, // 持仓量
+                entryPrice: 7.48, // 开仓价
                 exchangeRate: 7.23 // 汇率
             };
 
@@ -244,7 +244,7 @@
 
             // 计算仓位收益
             function calculateProfit(currentPrice) {
-                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate + 2690;
+                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate + 2465;
                 return profit.toFixed(0); // 保留两位小数
             }
 
@@ -298,7 +298,7 @@
                 document.getElementById("profit").textContent = `${profit}`;
 
                 // Update the title with BTC, BGB, BNB prices
-                document.title = `${Math.floor(btcPrice)} ${bgbPrice.toFixed(3)} ${Math.floor(bnbPrice)}`;
+                document.title = `${Math.floor(btcPrice)} ${bgbPrice.toFixed(3)} ${Math.floor(ethPrice)}`;
 
                 // Save the current prices for comparison
                 previousPrices = {
