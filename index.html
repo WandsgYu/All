@@ -19,6 +19,7 @@
             align-items: center;
             background-color: #121212;
             font-family: "Arial", sans-serif;
+            position: relative; /* 使子元素的绝对定位相对于body */
         }
 
         .header {
@@ -30,7 +31,6 @@
             font-weight: 700; /* 加粗 */
         }
 
-        /* 其他样式保持不变 */
         .container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -84,6 +84,23 @@
             text-align: center;
         }
 
+        /* 新增样式：日期和时间 */
+        .date-time {
+            position: absolute;
+            color: #fff;
+            font-size: 3vw;
+        }
+
+        .date {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .time {
+            top: 10px;
+            right: 10px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr 1fr 1fr;
@@ -114,12 +131,16 @@
             .footer {
                 font-size: 4vw;
             }
+
+            .date-time {
+                font-size: 3vw;
+            }
         }
     </style>
 </head>
 
 <body>
-       <div class="footer" id="profit">Loading</div>
+    <div class="footer" id="profit">Loading</div>
     <div class="container">
         <div class="box" id="btc">
             <h1 id="btc-price">Loading...</h1>
@@ -159,7 +180,10 @@
         </div>
     </div>
     <div class="header">Trust your judgment.</div>
-    
+
+    <!-- 新增：日期和时间显示 -->
+    <div class="date-time date" id="current-date"></div>
+    <div class="date-time time" id="current-time"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -180,10 +204,24 @@
             const position = {
                 symbol: "BGB",
                 type: "long", // 开多
-                quantity: 202, // 持仓量
-                entryPrice: 7.656, // 开仓价
-                exchangeRate: 7.22 // 汇率
+                quantity: 100, // 持仓量
+                entryPrice: 7.728, // 开仓价
+                exchangeRate: 7.23 // 汇率
             };
+
+            // 更新日期和时间
+            function updateDateTime() {
+                const now = new Date();
+                const dateString = now.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                const timeString = now.toLocaleTimeString('zh-CN', { hour12: false });
+
+                document.getElementById("current-date").textContent = dateString;
+                document.getElementById("current-time").textContent = timeString;
+            }
+
+            // 每秒更新一次时间
+            setInterval(updateDateTime, 1000);
+            updateDateTime(); // 初始化显示
 
             async function fetchPrice(symbol) {
                 try {
@@ -206,7 +244,7 @@
 
             // 计算仓位收益
             function calculateProfit(currentPrice) {
-                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate+2769;
+                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate + 2690;
                 return profit.toFixed(0); // 保留两位小数
             }
 
