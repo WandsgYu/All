@@ -204,8 +204,8 @@
             const position = {
                 symbol: "BGB",
                 type: "long", // 开多
-                quantity: 393, // 持仓量
-                entryPrice: 6.744, // 开仓价
+                quantity: 250, // 持仓量
+                entryPrice: 6.791, // 开仓价
                 exchangeRate: 7.29 // 汇率
             };
 
@@ -244,7 +244,7 @@
 
             // 计算仓位收益
             function calculateProfit(currentPrice) {
-                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate + 3000;
+                const profit = (currentPrice - position.entryPrice) * position.quantity * position.exchangeRate + 975+1516;
                 return profit.toFixed(0); // 保留两位小数
             }
 
