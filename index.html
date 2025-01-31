@@ -138,11 +138,20 @@
           font-size: 3vw;
         }
       }
+      .no-style {
+    color: inherit; /* 继承父元素的文字颜色 */
+    text-decoration: none; /* 移除下划线 */
+  }
+  .no-style:hover {
+    text-decoration: none; /* 鼠标悬停时也不显示下划线 */
+  }
     </style>
   </head>
 
   <body>
-    <div class="footer" id="profit">Loading</div>
+    <div class="footer">
+      <a href="https://github.com/WandsgYu/All/blob/main/index.html" target="_blank" id="profit" class="no-style">Loading</a>
+    </div>
     <div class="container">
       <div class="box" id="btc">
         <h1 id="btc-price">Loading...</h1>
@@ -252,11 +261,8 @@
         // 计算仓位收益
         function calculateProfit(currentPrice) {
           const profit =
-            (currentPrice - position.entryPrice) *
-              position.quantity *
-              position.exchangeRate +
-            4929;
-          return profit.toFixed(0); // 保留两位小数
+            (110.189 * currentPrice - 78.19) * position.exchangeRate;
+          return profit.toFixed(1); // 保留两位小数
         }
 
         async function updatePrices() {
