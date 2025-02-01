@@ -1,229 +1,436 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loading BTC Price...</title>
+    <!-- 引入 Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #121212;
-            font-family: "Arial", sans-serif;
-        }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #121212;
+        font-family: "Arial", sans-serif;
+        position: relative; /* 使子元素的绝对定位相对于body */
+      }
 
+      .header {
+        color: #fff;
+        font-size: 2.5vw;
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: "Dancing Script", cursive; /* 应用花哨字体 */
+        font-weight: 700; /* 加粗 */
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 15px;
+        width: 80vw;
+        height: 80vh;
+        justify-items: center;
+        align-items: center;
+      }
+
+      .box {
+        width: 90%;
+        height: 90%;
+        background-color: #1e1e1e;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        box-sizing: border-box;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .box h1 {
+        font-size: 6vw;
+        margin: 0;
+        font-weight: bold;
+        transition: color 0.15s ease-in-out;
+      }
+
+      .box h2 {
+        font-size: 2vw;
+        margin-top: 10px;
+        color: #888;
+      }
+
+      .box .positive {
+        color: #00c853;
+      }
+
+      .box .negative {
+        color: #f44336;
+      }
+
+      .footer {
+        color: #fff;
+        font-size: 2vw;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      /* 新增样式：日期和时间 */
+      .date-time {
+        position: absolute;
+        color: #fff;
+        font-size: 3vw;
+      }
+
+      .date {
+        bottom: 10px;
+        right: 10px;
+      }
+
+      .time {
+        top: 10px;
+        right: 10px;
+      }
+
+      @media (max-width: 768px) {
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            width: 80vw;
-            height: 80vh;
-            justify-content: space-between;
-            align-items: center;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 10px;
+          width: 100vw;
+          height: 100vh;
+          padding: 10px;
         }
 
         .box {
-            width: 45%;
-            height: 45%;
-            background-color: #1e1e1e;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 15px;
-            margin: 15px;
-            box-sizing: border-box;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+          width: 100%;
+          height: 100%;
+          margin: 0;
         }
 
         .box h1 {
-            font-size: 8vw; /* PC端价格数字更大 */
-            margin: 0;
-            font-weight: bold;
-            transition: color 0.15s ease-in-out;
+          font-size: 8vw;
         }
 
         .box h2 {
-            font-size: 2vw;
-            margin-top: 10px;
-            color: #888;
+          font-size: 4vw;
         }
 
-        .box .positive {
-            color: #00c853;
+        .header {
+          font-size: 5vw;
         }
 
-        .box .negative {
-            color: #f44336;
+        .footer {
+          color: #fff;
+          font-size: 2vw;
+          margin-top: 20px;
+          text-align: center;
+          position: fixed; /* 固定在底部 */
+          bottom: 0; /* 距离底部0 */
+          width: 100%; /* 宽度100% */
+          background-color: #121212; /* 背景色与页面一致 */
+          padding: 10px 0; /* 增加内边距 */
+          z-index: 1000; /* 确保在最上层 */
         }
 
         @media (max-width: 768px) {
-            .container {
-                display: grid;
-                grid-template-columns: 1fr 1fr; /* 强制 2x2 布局 */
-                gap: 10px; /* 控制间距 */
-                width: 100vw;
-                height: 100vh;
-                padding: 10px;
-            }
-
-            .box {
-                width: 100%; /* 网格布局自动管理宽度 */
-                height: 100%; /* 自适应高度 */
-                margin: 0; /* 移除额外的 margin */
-            }
-
-            .box h1 {
-                font-size: 10vw; /* 手机端价格数字更大 */
-            }
-
-            .box h2 {
-                font-size: 4vw; /* 调整标签字体大小 */
-            }
+          .footer {
+            font-size: 4vw;
+            padding: 5px 0; /* 调整内边距 */
+          }
         }
-    </style>
-</head>
 
-<body>
-    <div class="container">
-        <div class="box" id="btc">
-            <h1 id="btc-price">Loading...</h1>
-            <h2>BTC</h2>
-        </div>
-        <div class="box" id="eth">
-            <h1 id="eth-price">Loading...</h1>
-            <h2>ETH</h2>
-        </div>
-        <div class="box" id="bnb">
-            <h1 id="bnb-price">Loading...</h1>
-            <h2>BNB</h2>
-        </div>
-        <div class="box" id="bgb">
-            <h1 id="bgb-price">Loading...</h1>
-            <h2>BGB</h2>
-        </div>
-        <div class="box" id="doge">
-            <h1 id="doge-price">Loading...</h1>
-            <h2>DOGE</h2>
-        </div>
-        <div class="box" id="xrp">
-            <h1 id="xrp-price">Loading...</h1>
-            <h2>XRP</h2>
-        </div>
+        .date-time {
+          font-size: 3vw;
+        }
+      }
+      .no-style {
+        color: inherit; /* 继承父元素的文字颜色 */
+        text-decoration: none; /* 移除下划线 */
+      }
+      .no-style:hover {
+        text-decoration: none; /* 鼠标悬停时也不显示下划线 */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="footer">
+      <a
+        href="https://github.com/WandsgYu/All/blob/main/index.html"
+        target="_blank"
+        id="profit"
+        class="no-style"
+        >Loading</a
+      >
     </div>
+    <div class="container">
+      <div class="box" id="btc">
+        <h1 id="btc-price">Loading...</h1>
+        <h2>BTC</h2>
+      </div>
+      <div class="box" id="eth">
+        <h1 id="eth-price">Loading...</h1>
+        <h2>ETH</h2>
+      </div>
+      <div class="box" id="sol">
+        <h1 id="sol-price">Loading...</h1>
+        <h2>SOL</h2>
+      </div>
+      <div class="box" id="bnb">
+        <h1 id="bnb-price">Loading...</h1>
+        <h2>BNB</h2>
+      </div>
+      <div class="box" id="bgb">
+        <h1 id="bgb-price">Loading...</h1>
+        <h2>BGB</h2>
+      </div>
+      <div class="box" id="trump">
+        <h1 id="trump-price">Loading...</h1>
+        <h2>TRUMP</h2>
+      </div>
+      <div class="box" id="doge">
+        <h1 id="doge-price">Loading...</h1>
+        <h2>DOGE</h2>
+      </div>
+      <div class="box" id="JELLYJELLY">
+        <h1 id="JELLYJELLY-price">Loading...</h1>
+        <h2>JELLYJELLY</h2>
+      </div>
+      <div class="box" id="MELANIA">
+        <h1 id="MELANIA-price">Loading...</h1>
+        <h2>MELANIA</h2>
+      </div>
+    </div>
+    <div class="header">Trust your judgment.</div>
+
+    <!-- 新增：日期和时间显示 -->
+    <div class="date-time date" id="current-date"></div>
+    <div class="date-time time" id="current-time"></div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const apiUrlBase = "https://api.bitget.com/api/mix/v1/market/ticker?symbol=";
-            let previousPrices = {
-                BTC: null,
-                ETH: null,
-                BNB: null,
-                BGB: null,
-                DOGE: null,
-                XRP: null
-            };
+      document.addEventListener("DOMContentLoaded", function () {
+        const apiUrlBase =
+          "https://api.bitget.com/api/mix/v1/market/ticker?symbol=";
+        let previousPrices = {
+          BTC: null,
+          ETH: null,
+          SOL: null,
+          BNB: null,
+          BGB: null,
+          TRUMP: null,
+          DOGE: null,
+          JELLYJELLY: null,
+          MELANIA: null,
+        };
 
-            async function fetchPrice(symbol) {
-                try {
-                    const response = await fetch(`${apiUrlBase}${symbol}USDT_UMCBL`);
-                    const data = await response.json();
-                    return parseFloat(data.data.last);
-                } catch (error) {
-                    console.error("Error fetching price:", error);
-                    return null;
-                }
-            }
+        // 仓位信息
+        const position = {
+          symbol: "BGB",
+          type: "long", // 开多
+          quantity: 20.25, // 持仓量
+          entryPrice: 6.831, // 开仓价
+          exchangeRate: 7.28, // 汇率
+        };
 
-            function getPriceClass(symbol, currentPrice) {
-                const previousPrice = previousPrices[symbol];
-                if (previousPrice === null) return "";
-                if (currentPrice > previousPrice) return "positive";
-                if (currentPrice < previousPrice) return "negative";
-                return "";
-            }
+        // 更新日期和时间
+        function updateDateTime() {
+          const now = new Date();
+          const dateString = now.toLocaleDateString("zh-CN", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          const timeString = now.toLocaleTimeString("zh-CN", { hour12: false });
 
-            async function updatePrices() {
-                const btcPrice = await fetchPrice("BTC");
-                const ethPrice = await fetchPrice("ETH");
-                const bnbPrice = await fetchPrice("BNB");
-                const bgbPrice = await fetchPrice("BGB");
-                const dogePrice = await fetchPrice("DOGE");
-                const xrpPrice = await fetchPrice("XRP");
+          document.getElementById("current-date").textContent = dateString;
+          document.getElementById("current-time").textContent = timeString;
+        }
 
-                if (btcPrice === null || ethPrice === null || bnbPrice === null || bgbPrice === null || dogePrice === null || xrpPrice === null) {
-                    document.getElementById("btc-price").textContent = "Error fetching data";
-                    document.getElementById("eth-price").textContent = "Error fetching data";
-                    document.getElementById("bnb-price").textContent = "Error fetching data";
-                    document.getElementById("bgb-price").textContent = "Error fetching data";
-                    document.getElementById("doge-price").textContent = "Error fetching data";
-                    document.getElementById("xrp-price").textContent = "Error fetching data";
-                    return;
-                }
+        // 每秒更新一次时间
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // 初始化显示
 
-                // Update BTC price
-                const btcElement = document.getElementById("btc-price");
-                btcElement.textContent = Math.floor(btcPrice);
-                const btcClass = getPriceClass("BTC", btcPrice);
-                if (btcClass) btcElement.classList.add(btcClass);
+        async function fetchPrice(symbol) {
+          try {
+            const response = await fetch(`${apiUrlBase}${symbol}USDT_UMCBL`);
+            const data = await response.json();
+            return parseFloat(data.data.last);
+          } catch (error) {
+            console.error("Error fetching price:", error);
+            return null;
+          }
+        }
 
-                // Update ETH price
-                const ethElement = document.getElementById("eth-price");
-                ethElement.textContent = Math.floor(ethPrice);
-                const ethClass = getPriceClass("ETH", ethPrice);
-                if (ethClass) ethElement.classList.add(ethClass);
+        function getPriceClass(symbol, currentPrice) {
+          const previousPrice = previousPrices[symbol];
+          if (previousPrice === null) return "";
+          if (currentPrice > previousPrice) return "positive";
+          if (currentPrice < previousPrice) return "negative";
+          return "";
+        }
 
-                // Update BNB price
-                const bnbElement = document.getElementById("bnb-price");
-                bnbElement.textContent = bnbPrice.toFixed(0);
-                const bnbClass = getPriceClass("BNB", bnbPrice);
-                if (bnbClass) bnbElement.classList.add(bnbClass);
+        // 计算仓位收益
+        function calculateProfit(currentPrice) {
+          const profit =
+            (110.189 * currentPrice - 78.19) * position.exchangeRate;
+          return profit.toFixed(1); // 保留两位小数
+        }
 
-                // Update BGB price
-                const bgbElement = document.getElementById("bgb-price");
-                bgbElement.textContent = bgbPrice.toFixed(2);
-                const bgbClass = getPriceClass("BGB", bgbPrice);
-                if (bgbClass) bgbElement.classList.add(bgbClass);
+        async function updatePrices() {
+          const btcPrice = await fetchPrice("BTC");
+          const ethPrice = await fetchPrice("ETH");
+          const solPrice = await fetchPrice("SOL");
+          const bnbPrice = await fetchPrice("BNB");
+          const bgbPrice = await fetchPrice("BGB");
+          const trumpPrice = await fetchPrice("TRUMP");
+          const dogePrice = await fetchPrice("DOGE");
+          const JELLYJELLYPrice = await fetchPrice("JELLYJELLY");
+          const MELANIAPrice = await fetchPrice("MELANIA");
 
-                // Update DOGE price
-                const dogeElement = document.getElementById("doge-price");
-                dogeElement.textContent = dogePrice.toFixed(2);
-                const dogeClass = getPriceClass("DOGE", dogePrice);
-                if (dogeClass) dogeElement.classList.add(dogeClass);
+          if (
+            btcPrice === null ||
+            ethPrice === null ||
+            solPrice === null ||
+            bnbPrice === null ||
+            bgbPrice === null ||
+            trumpPrice === null ||
+            dogePrice === null ||
+            JELLYJELLYPrice === null ||
+            MELANIAPrice === null
+          ) {
+            document.getElementById("btc-price").textContent = "Error";
+            document.getElementById("eth-price").textContent = "Error";
+            document.getElementById("sol-price").textContent = "Error";
+            document.getElementById("bnb-price").textContent = "Error";
+            document.getElementById("bgb-price").textContent = "Error";
+            document.getElementById("trump-price").textContent = "Error";
+            document.getElementById("doge-price").textContent = "Error";
+            document.getElementById("JELLYJELLY-price").textContent = "Error";
+            document.getElementById("MELANIA-price").textContent = "Error";
+            document.getElementById("profit").textContent =
+              "仓位收益：数据错误";
+            return;
+          }
 
-                // Update XRP price
-                const xrpElement = document.getElementById("xrp-price");
-                xrpElement.textContent = xrpPrice.toFixed(2);
-                const xrpClass = getPriceClass("XRP", xrpPrice);
-                if (xrpClass) xrpElement.classList.add(xrpClass);
+          // Update prices for each coin with specified decimal places
+          const coins = [
+            { id: "btc", symbol: "BTC", price: Math.floor(btcPrice) },
+            { id: "eth", symbol: "ETH", price: Math.floor(ethPrice) },
+            { id: "sol", symbol: "SOL", price: Math.floor(solPrice) },
+            { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice) },
+            { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3) },
+            { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
+            { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
+            {
+              id: "JELLYJELLY",
+              symbol: "JELLYJELLY",
+              price: JELLYJELLYPrice.toFixed(4),
+            },
+            {
+              id: "MELANIA",
+              symbol: "MELANIA",
+              price: MELANIAPrice.toFixed(2),
+            },
+          ];
 
-                // Update the title with the current prices
-                document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${bnbPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${dogePrice.toFixed(2)} ${xrpPrice.toFixed(2)}`;
+          coins.forEach(({ id, symbol, price }) => {
+            const priceElement = document.getElementById(`${id}-price`);
+            priceElement.textContent = price;
+            const priceClass = getPriceClass(symbol, price);
+            if (priceClass) priceElement.classList.add(priceClass);
+          });
 
-                // Save the current prices for comparison
-                previousPrices = {
-                    BTC: btcPrice,
-                    ETH: ethPrice,
-                    BNB: bnbPrice,
-                    BGB: bgbPrice,
-                    DOGE: dogePrice,
-                    XRP: xrpPrice
-                };
+          // 更新仓位收益
+          const profit = calculateProfit(bgbPrice);
+          document.getElementById("profit").textContent = `${profit}`;
 
-                // Re-fetch prices every 1 second
-                setTimeout(updatePrices, 1000);
-            }
+          // Update the title with BTC, BGB, BNB prices
+          document.title = `${Math.floor(btcPrice)} ${bgbPrice.toFixed(
+            2
+          )} ${profit}`;
 
-            updatePrices();
-        });
+          // Save the current prices for comparison
+          previousPrices = {
+            BTC: btcPrice,
+            ETH: ethPrice,
+            SOL: solPrice,
+            BNB: bnbPrice,
+            BGB: bgbPrice,
+            TRUMP: trumpPrice,
+            DOGE: dogePrice,
+            JELLYJELLY: JELLYJELLYPrice,
+            MELANIA: MELANIAPrice,
+          };
+
+          // Re-fetch prices every 500ms
+          setTimeout(updatePrices, 500);
+        }
+
+        updatePrices();
+      });
     </script>
-</body>
-
+    <!-- Code injected by live-server -->
+    <script>
+      // <![CDATA[  <-- For SVG support
+      if ("WebSocket" in window) {
+        (function () {
+          function refreshCSS() {
+            var sheets = [].slice.call(document.getElementsByTagName("link"));
+            var head = document.getElementsByTagName("head")[0];
+            for (var i = 0; i < sheets.length; ++i) {
+              var elem = sheets[i];
+              var parent = elem.parentElement || head;
+              parent.removeChild(elem);
+              var rel = elem.rel;
+              if (
+                (elem.href && typeof rel != "string") ||
+                rel.length == 0 ||
+                rel.toLowerCase() == "stylesheet"
+              ) {
+                var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, "");
+                elem.href =
+                  url +
+                  (url.indexOf("?") >= 0 ? "&" : "?") +
+                  "_cacheOverride=" +
+                  new Date().valueOf();
+              }
+              parent.appendChild(elem);
+            }
+          }
+          var protocol =
+            window.location.protocol === "http:" ? "ws://" : "wss://";
+          var address =
+            protocol + window.location.host + window.location.pathname + "/ws";
+          var socket = new WebSocket(address);
+          socket.onmessage = function (msg) {
+            if (msg.data == "reload") window.location.reload();
+            else if (msg.data == "refreshcss") refreshCSS();
+          };
+          if (
+            sessionStorage &&
+            !sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer")
+          ) {
+            console.log("Live reload enabled.");
+            sessionStorage.setItem("IsThisFirstTime_Log_From_LiveServer", true);
+          }
+        })();
+      } else {
+        console.error(
+          "Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading."
+        );
+      }
+      // ]]>
+    </script>
+  </body>
 </html>
