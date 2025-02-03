@@ -203,13 +203,13 @@
         <h1 id="doge-price">Loading...</h1>
         <h2>DOGE</h2>
       </div>
-      <div class="box" id="JELLYJELLY">
-        <h1 id="JELLYJELLY-price">Loading...</h1>
-        <h2>JELLYJELLY</h2>
+      <div class="box" id="SUI">
+        <h1 id="SUI-price">Loading...</h1>
+        <h2>SUI</h2>
       </div>
-      <div class="box" id="MELANIA">
-        <h1 id="MELANIA-price">Loading...</h1>
-        <h2>MELANIA</h2>
+      <div class="box" id="MEME">
+        <h1 id="MEME-price">Loading...</h1>
+        <h2>MEME</h2>
       </div>
     </div>
     <div class="header">Trust your judgment.</div>
@@ -230,8 +230,8 @@
           BGB: null,
           TRUMP: null,
           DOGE: null,
-          JELLYJELLY: null,
-          MELANIA: null,
+          SUI: null,
+          MEME: null,
         };
 
         // 仓位信息
@@ -295,8 +295,8 @@
           const bgbPrice = await fetchPrice("BGB");
           const trumpPrice = await fetchPrice("TRUMP");
           const dogePrice = await fetchPrice("DOGE");
-          const JELLYJELLYPrice = await fetchPrice("JELLYJELLY");
-          const MELANIAPrice = await fetchPrice("MELANIA");
+          const SUIPrice = await fetchPrice("SUI");
+          const MEMEPrice = await fetchPrice("MEME");
 
           if (
             btcPrice === null ||
@@ -306,8 +306,8 @@
             bgbPrice === null ||
             trumpPrice === null ||
             dogePrice === null ||
-            JELLYJELLYPrice === null ||
-            MELANIAPrice === null
+            SUIPrice === null ||
+            MEMEPrice === null
           ) {
             document.getElementById("btc-price").textContent = "Error";
             document.getElementById("eth-price").textContent = "Error";
@@ -316,32 +316,23 @@
             document.getElementById("bgb-price").textContent = "Error";
             document.getElementById("trump-price").textContent = "Error";
             document.getElementById("doge-price").textContent = "Error";
-            document.getElementById("JELLYJELLY-price").textContent = "Error";
-            document.getElementById("MELANIA-price").textContent = "Error";
-            document.getElementById("profit").textContent =
-              "仓位收益：数据错误";
+            document.getElementById("SUI-price").textContent = "Error";
+            document.getElementById("MEME-price").textContent = "Error";
+            document.getElementById("profit").textContent = "Error";
             return;
           }
 
           // Update prices for each coin with specified decimal places
           const coins = [
-            { id: "btc", symbol: "BTC", price: Math.floor(btcPrice) },
-            { id: "eth", symbol: "ETH", price: Math.floor(ethPrice) },
-            { id: "sol", symbol: "SOL", price: Math.floor(solPrice) },
-            { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice) },
-            { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3) },
-            { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1) },
-            { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3) },
-            {
-              id: "JELLYJELLY",
-              symbol: "JELLYJELLY",
-              price: JELLYJELLYPrice.toFixed(4),
-            },
-            {
-              id: "MELANIA",
-              symbol: "MELANIA",
-              price: MELANIAPrice.toFixed(2),
-            },
+            { id: "btc", symbol: "BTC", price: Math.floor(btcPrice)},
+            { id: "eth", symbol: "ETH", price: Math.floor(ethPrice)},
+            { id: "sol", symbol: "SOL", price: Math.floor(solPrice)},
+            { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice)},
+            { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3)},
+            { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1)},
+            { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3)},
+            { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(3)},
+            { id: "MEME", symbol: "MEME", price: MEMEPrice.toFixed(5)},
           ];
 
           coins.forEach(({ id, symbol, price }) => {
@@ -369,8 +360,8 @@
             BGB: bgbPrice,
             TRUMP: trumpPrice,
             DOGE: dogePrice,
-            JELLYJELLY: JELLYJELLYPrice,
-            MELANIA: MELANIAPrice,
+            SUI: SUIPrice,
+            MEME: MEMEPrice,
           };
 
           // Re-fetch prices every 500ms
