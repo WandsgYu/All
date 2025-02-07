@@ -327,7 +327,7 @@
           const coins = [
             { id: "btc", symbol: "BTC", price: Math.floor(btcPrice)},
             { id: "eth", symbol: "ETH", price: Math.floor(ethPrice)},
-            { id: "sol", symbol: "SOL", price: solPrice.toFixed(1)},
+            { id: "sol", symbol: "SOL", price: solPrice.toFixed(2)},
             { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice)},
             { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3)},
             { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1)},
@@ -348,7 +348,7 @@
           document.getElementById("profit").textContent = `${profit}`;
 
           // Update the title with BTC, BGB, BNB prices
-          document.title = `${Math.floor(btcPrice)} ${ethPrice.toFixed(0)} ${bgbPrice.toFixed(2)} `;
+          document.title = `${Math.floor(btcPrice)} ${ethPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${solPrice.toFixed(2)}`;
 
           // Save the current prices for comparison
           previousPrices = {
