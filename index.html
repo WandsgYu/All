@@ -167,13 +167,7 @@
 
   <body>
     <div class="footer">
-      <a
-        href="https://github.com/WandsgYu/All/blob/main/index.html"
-        target="_blank"
-        id="profit"
-        class="no-style"
-        >Loading</a
-      >
+      
     </div>
     <div class="container">
       <div class="box" id="btc">
@@ -213,10 +207,18 @@
         <h2>MEME</h2>
       </div>
     </div>
-    <div class="header">Trust your judgment.</div>
+    <div class="header"><a
+      href="https://github.com/WandsgYu/All/blob/main/index.html"
+      target="_blank"
+      id="profit"
+      class="no-style"
+      >Trust your judgment.</a
+    ></div>
 
     <!-- 新增：日期和时间显示 -->
-    <div class="date-time date" id="current-date"></div>
+    <div class="date-time date" id="current-date">
+      
+    </div>
     <div class="date-time time" id="current-time"></div>
 
     <script>
@@ -235,14 +237,7 @@
           MEME: null,
         };
 
-        // 仓位信息
-        const position = {
-          symbol: "BGB",
-          type: "long", // 开多
-          quantity: 20.25, // 持仓量
-          entryPrice: 6.831, // 开仓价
-          exchangeRate: 7.28, // 汇率
-        };
+        
 
         // 更新日期和时间
         function updateDateTime() {
@@ -281,12 +276,7 @@
           return "";
         }
 
-        // 计算仓位收益
-        function calculateProfit(currentPrice) {
-          const profit =
-            (110.189 * currentPrice - 78.19) * position.exchangeRate;
-          return profit.toFixed(1); // 保留两位小数
-        }
+       
 
         async function updatePrices() {
           const btcPrice = await fetchPrice("BTC");
@@ -333,7 +323,7 @@
             { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(1)},
             { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3)},
             { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(3)},
-            { id: "MEME", symbol: "MEME", price: MEMEPrice.toFixed(5)},
+            { id: "MEME", symbol: "MEME", price: MEMEPrice.toFixed(6)},
           ];
 
           coins.forEach(({ id, symbol, price }) => {
@@ -343,9 +333,7 @@
             if (priceClass) priceElement.classList.add(priceClass);
           });
 
-          // 更新仓位收益
-          const profit = calculateProfit(bgbPrice);
-          document.getElementById("profit").textContent = `${profit}`;
+          
 
           // Update the title with BTC, BGB, BNB prices
           document.title = `${Math.floor(btcPrice)} ${ethPrice.toFixed(0)} ${bgbPrice.toFixed(2)} ${solPrice.toFixed(2)}`;
