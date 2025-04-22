@@ -337,7 +337,7 @@
           
 
           // Update the title with BTC, BGB, BNB prices
-          document.title = `${Math.floor(btcPrice)} ${ethPrice.toFixed(0)} ${MEMEPrice.toFixed(6)*1000000} `;
+          document.title = `${Math.floor(btcPrice)} ${ethPrice.toFixed(0)} ${(MEMEPrice * 1000000).toFixed(6)} `;
 
           // Save the current prices for comparison
           previousPrices = {
