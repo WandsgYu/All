@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -23,7 +21,7 @@
         align-items: center;
         background-color: #121212;
         font-family: "Arial", sans-serif;
-        position: relative; 
+        position: relative;
       }
 
       .header {
@@ -31,7 +29,7 @@
         font-size: 2.5vw;
         margin-bottom: 20px;
         text-align: center;
-        font-family: "Dancing Script", cursive; 
+        font-family: "Dancing Script", cursive;
         font-weight: 700; /* 加粗 */
       }
 
@@ -167,9 +165,7 @@
   </head>
 
   <body>
-    <div class="footer">
-      
-    </div>
+    <div class="footer"></div>
     <div class="container">
       <div class="box" id="btc">
         <h1 id="btc-price">Loading...</h1>
@@ -199,27 +195,27 @@
         <h1 id="doge-price">Loading...</h1>
         <h2>DOGE</h2>
       </div>
-      <div class="box" id="SUI">
-        <h1 id="SUI-price">Loading...</h1>
-        <h2>SUI</h2>
+      <div class="box" id="XAUT">
+        <h1 id="XAUT-price">Loading...</h1>
+        <h2>XAUT</h2>
       </div>
       <div class="box" id="MEME">
         <h1 id="MEME-price">Loading...</h1>
         <h2>MEME</h2>
       </div>
     </div>
-    <div class="header"><a
-      href="https://github.com/WandsgYu/All/blob/main/index.html"
-      target="_blank"
-      id="profit"
-      class="no-style"
-      >Trust your judgment.</a
-    ></div>
+    <div class="header">
+      <a
+        href="https://github.com/WandsgYu/All/blob/main/index.html"
+        target="_blank"
+        id="profit"
+        class="no-style"
+        >Trust your judgment.</a
+      >
+    </div>
 
     <!-- 新增：日期和时间显示 -->
-    <div class="date-time date" id="current-date">
-      
-    </div>
+    <div class="date-time date" id="current-date"></div>
     <div class="date-time time" id="current-time"></div>
 
     <script>
@@ -234,28 +230,35 @@
           BGB: null,
           TRUMP: null,
           DOGE: null,
-          SUI: null,
+          XAUT: null,
           MEME: null,
         };
 
-        
-
         // 更新日期和时间
         function updateDateTime() {
-          const now = new Date();
-          const dateString = now.toLocaleDateString("zh-CN", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          });
-          const timeString = now.toLocaleTimeString("zh-CN", { hour12: false });
+          try {
+            const now = new Date();
+            const dateString = now.toLocaleDateString("zh-CN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            });
+            const timeString = now.toLocaleTimeString("zh-CN", {
+              hour12: false,
+            });
 
-          document.getElementById("current-date").textContent = dateString;
-          document.getElementById("current-time").textContent = timeString;
+            const dateElement = document.getElementById("current-date");
+            const timeElement = document.getElementById("current-time");
+
+            if (dateElement) dateElement.textContent = dateString;
+            if (timeElement) timeElement.textContent = timeString;
+          } catch (error) {
+            console.error("Error updating date/time:", error);
+          }
         }
 
         // 每秒更新一次时间
-        setInterval(updateDateTime, 10000);
+        setInterval(updateDateTime, 1000); // 改为1000毫秒(1秒)
         updateDateTime(); // 初始化显示
 
         async function fetchPrice(symbol) {
@@ -277,83 +280,117 @@
           return "";
         }
 
-       
-
         async function updatePrices() {
-          const btcPrice = await fetchPrice("BTC");
-          const ethPrice = await fetchPrice("ETH");
-          const solPrice = await fetchPrice("SOL");
-          const bnbPrice = await fetchPrice("BNB");
-          const bgbPrice = await fetchPrice("BGB");
-          const trumpPrice = await fetchPrice("TRUMP");
-          const dogePrice = await fetchPrice("DOGE");
-          const SUIPrice = await fetchPrice("SUI");
-          const MEMEPrice = await fetchPrice("MEME");
+          try {
+            // 使用Promise.all并行请求所有价格
+            const [
+              btcPrice,
+              ethPrice,
+              solPrice,
+              bnbPrice,
+              bgbPrice,
+              trumpPrice,
+              dogePrice,
+              XAUTPrice,
+              MEMEPrice,
+            ] = await Promise.all([
+              fetchPrice("BTC"),
+              fetchPrice("ETH"),
+              fetchPrice("SOL"),
+              fetchPrice("BNB"),
+              fetchPrice("BGB"),
+              fetchPrice("TRUMP"),
+              fetchPrice("DOGE"),
+              fetchPrice("XAUT"),
+              fetchPrice("MEME"),
+            ]);
 
-          if (
-            btcPrice === null ||
-            ethPrice === null ||
-            solPrice === null ||
-            bnbPrice === null ||
-            bgbPrice === null ||
-            trumpPrice === null ||
-            dogePrice === null ||
-            SUIPrice === null ||
-            MEMEPrice === null
-          ) {
-            document.getElementById("btc-price").textContent = "Error";
-            document.getElementById("eth-price").textContent = "Error";
-            document.getElementById("sol-price").textContent = "Error";
-            document.getElementById("bnb-price").textContent = "Error";
-            document.getElementById("bgb-price").textContent = "Error";
-            document.getElementById("trump-price").textContent = "Error";
-            document.getElementById("doge-price").textContent = "Error";
-            document.getElementById("SUI-price").textContent = "Error";
-            document.getElementById("MEME-price").textContent = "Error";
-            document.getElementById("profit").textContent = "Error";
-            return;
+            // 单独处理每个价格，即使某个请求失败也不影响其他
+            const coins = [
+              {
+                id: "btc",
+                symbol: "BTC",
+                price: btcPrice !== null ? Math.floor(btcPrice) : "Error",
+              },
+              {
+                id: "eth",
+                symbol: "ETH",
+                price: ethPrice !== null ? Math.floor(ethPrice) : "Error",
+              },
+              {
+                id: "sol",
+                symbol: "SOL",
+                price: solPrice !== null ? solPrice.toFixed(2) : "Error",
+              },
+              {
+                id: "bnb",
+                symbol: "BNB",
+                price: bnbPrice !== null ? Math.floor(bnbPrice) : "Error",
+              },
+              {
+                id: "bgb",
+                symbol: "BGB",
+                price: bgbPrice !== null ? bgbPrice.toFixed(3) : "Error",
+              },
+              {
+                id: "trump",
+                symbol: "TRUMP",
+                price: trumpPrice !== null ? trumpPrice.toFixed(2) : "Error",
+              },
+              {
+                id: "doge",
+                symbol: "DOGE",
+                price: dogePrice !== null ? dogePrice.toFixed(3) : "Error",
+              },
+              {
+                id: "XAUT",
+                symbol: "XAUT",
+                price: XAUTPrice !== null ? XAUTPrice.toFixed(0) : "Error",
+              },
+              {
+                id: "MEME",
+                symbol: "MEME",
+                price: MEMEPrice !== null ? MEMEPrice.toFixed(6) : "Error",
+              },
+            ];
+
+            coins.forEach(({ id, symbol, price }) => {
+              const priceElement = document.getElementById(`${id}-price`);
+              priceElement.textContent = price;
+
+              // 只有价格有效时才更新样式
+              if (price !== "Error") {
+                const priceClass = getPriceClass(symbol, price);
+                priceElement.className = ""; // 清除所有类
+                if (priceClass) priceElement.classList.add(priceClass);
+              }
+            });
+
+            // 更新标题
+            if (btcPrice !== null && ethPrice !== null && XAUTPrice !== null) {
+              document.title = `${Math.floor(btcPrice)} ${Math.floor(
+                ethPrice
+              )} ${Math.floor(XAUTPrice)}`;
+            }
+
+            // 保存当前价格用于比较
+            previousPrices = {
+              BTC: btcPrice !== null ? btcPrice : previousPrices.BTC,
+              ETH: ethPrice !== null ? ethPrice : previousPrices.ETH,
+              SOL: solPrice !== null ? solPrice : previousPrices.SOL,
+              BNB: bnbPrice !== null ? bnbPrice : previousPrices.BNB,
+              BGB: bgbPrice !== null ? bgbPrice : previousPrices.BGB,
+              TRUMP: trumpPrice !== null ? trumpPrice : previousPrices.TRUMP,
+              DOGE: dogePrice !== null ? dogePrice : previousPrices.DOGE,
+              XAUT: XAUTPrice !== null ? XAUTPrice : previousPrices.XAUT,
+              MEME: MEMEPrice !== null ? MEMEPrice : previousPrices.MEME,
+            };
+          } catch (error) {
+            console.error("Error updating prices:", error);
+          } finally {
+            // 无论成功失败都继续轮询
+            setTimeout(updatePrices, 1000);
           }
-
-          // Update prices for each coin with specified decimal places
-          const coins = [
-            { id: "btc", symbol: "BTC", price: Math.floor(btcPrice)},
-            { id: "eth", symbol: "ETH", price: Math.floor(ethPrice)},
-            { id: "sol", symbol: "SOL", price: solPrice.toFixed(2)},
-            { id: "bnb", symbol: "BNB", price: Math.floor(bnbPrice)},
-            { id: "bgb", symbol: "BGB", price: bgbPrice.toFixed(3)},
-            { id: "trump", symbol: "TRUMP", price: trumpPrice.toFixed(2)},
-            { id: "doge", symbol: "DOGE", price: dogePrice.toFixed(3)},
-            { id: "SUI", symbol: "SUI", price: SUIPrice.toFixed(3)},
-            { id: "MEME", symbol: "MEME", price: MEMEPrice.toFixed(6)},
-          ];
-
-          coins.forEach(({ id, symbol, price }) => {
-            const priceElement = document.getElementById(`${id}-price`);
-            priceElement.textContent = price;
-            const priceClass = getPriceClass(symbol, price);
-            if (priceClass) priceElement.classList.add(priceClass);
-          });
-
-          
-
-          // Update the title with BTC, BGB, BNB prices
-          document.title = `${Math.floor(btcPrice)} ${ethPrice.toFixed(0)} ${(MEMEPrice * 1000000).toFixed(6)} `;
-
-          // Save the current prices for comparison
-          previousPrices = {
-            BTC: btcPrice,
-            ETH: ethPrice,
-            SOL: solPrice,
-            BNB: bnbPrice,
-            BGB: bgbPrice,
-            TRUMP: trumpPrice,
-            DOGE: dogePrice,
-            SUI: SUIPrice,
-            MEME: MEMEPrice,
-          };
-
-          // Re-fetch prices every 500ms
-          setTimeout(updatePrices, 1000);
         }
 
         updatePrices();
