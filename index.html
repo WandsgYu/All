@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -195,9 +196,9 @@
         <h1 id="doge-price">Loading...</h1>
         <h2>DOGE</h2>
       </div>
-      <div class="box" id="XAUT">
-        <h1 id="XAUT-price">Loading...</h1>
-        <h2>XAUT</h2>
+      <div class="box" id="ALPACA">
+        <h1 id="ALPACA-price">Loading...</h1>
+        <h2>ALPACA</h2>
       </div>
       <div class="box" id="MEME">
         <h1 id="MEME-price">Loading...</h1>
@@ -230,7 +231,7 @@
           BGB: null,
           TRUMP: null,
           DOGE: null,
-          XAUT: null,
+          ALPACA: null,
           MEME: null,
         };
 
@@ -291,7 +292,7 @@
               bgbPrice,
               trumpPrice,
               dogePrice,
-              XAUTPrice,
+              ALPACAPrice,
               MEMEPrice,
             ] = await Promise.all([
               fetchPrice("BTC"),
@@ -301,7 +302,7 @@
               fetchPrice("BGB"),
               fetchPrice("TRUMP"),
               fetchPrice("DOGE"),
-              fetchPrice("XAUT"),
+              fetchPrice("ALPACA"),
               fetchPrice("MEME"),
             ]);
 
@@ -343,9 +344,9 @@
                 price: dogePrice !== null ? dogePrice.toFixed(3) : "Error",
               },
               {
-                id: "XAUT",
-                symbol: "XAUT",
-                price: XAUTPrice !== null ? XAUTPrice.toFixed(0) : "Error",
+                id: "ALPACA",
+                symbol: "ALPACA",
+                price: ALPACAPrice !== null ? ALPACAPrice.toFixed(3) : "Error",
               },
               {
                 id: "MEME",
@@ -367,10 +368,8 @@
             });
 
             // 更新标题
-            if (btcPrice !== null && ethPrice !== null && XAUTPrice !== null) {
-              document.title = `${Math.floor(btcPrice)} ${Math.floor(
-                ethPrice
-              )} ${Math.floor(XAUTPrice)}`;
+            if (btcPrice !== null && ethPrice !== null && ALPACAPrice !== null) {
+              document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${ALPACAPrice.toFixed(3)}`;
             }
 
             // 保存当前价格用于比较
@@ -382,7 +381,7 @@
               BGB: bgbPrice !== null ? bgbPrice : previousPrices.BGB,
               TRUMP: trumpPrice !== null ? trumpPrice : previousPrices.TRUMP,
               DOGE: dogePrice !== null ? dogePrice : previousPrices.DOGE,
-              XAUT: XAUTPrice !== null ? XAUTPrice : previousPrices.XAUT,
+              ALPACA: ALPACAPrice !== null ? ALPACAPrice : previousPrices.ALPACA,
               MEME: MEMEPrice !== null ? MEMEPrice : previousPrices.MEME,
             };
           } catch (error) {
