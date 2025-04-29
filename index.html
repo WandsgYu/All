@@ -196,9 +196,9 @@
         <h1 id="doge-price">Loading...</h1>
         <h2>DOGE</h2>
       </div>
-      <div class="box" id="ALPACA">
-        <h1 id="ALPACA-price">Loading...</h1>
-        <h2>ALPACA</h2>
+      <div class="box" id="SUI">
+        <h1 id="SUI-price">Loading...</h1>
+        <h2>SUI</h2>
       </div>
       <div class="box" id="MEME">
         <h1 id="MEME-price">Loading...</h1>
@@ -231,7 +231,7 @@
           BGB: null,
           TRUMP: null,
           DOGE: null,
-          ALPACA: null,
+          SUI: null,
           MEME: null,
         };
 
@@ -292,7 +292,7 @@
               bgbPrice,
               trumpPrice,
               dogePrice,
-              ALPACAPrice,
+              SUIPrice,
               MEMEPrice,
             ] = await Promise.all([
               fetchPrice("BTC"),
@@ -302,7 +302,7 @@
               fetchPrice("BGB"),
               fetchPrice("TRUMP"),
               fetchPrice("DOGE"),
-              fetchPrice("ALPACA"),
+              fetchPrice("SUI"),
               fetchPrice("MEME"),
             ]);
 
@@ -344,9 +344,9 @@
                 price: dogePrice !== null ? dogePrice.toFixed(3) : "Error",
               },
               {
-                id: "ALPACA",
-                symbol: "ALPACA",
-                price: ALPACAPrice !== null ? ALPACAPrice.toFixed(3) : "Error",
+                id: "SUI",
+                symbol: "SUI",
+                price: SUIPrice !== null ? SUIPrice.toFixed(3) : "Error",
               },
               {
                 id: "MEME",
@@ -368,8 +368,8 @@
             });
 
             // 更新标题
-            if (btcPrice !== null && ethPrice !== null && ALPACAPrice !== null) {
-              document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${ALPACAPrice.toFixed(3)}`;
+            if (btcPrice !== null && ethPrice !== null && SUIPrice !== null) {
+              document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${MEMEPrice.toFixed(6)}`;
             }
 
             // 保存当前价格用于比较
@@ -381,7 +381,7 @@
               BGB: bgbPrice !== null ? bgbPrice : previousPrices.BGB,
               TRUMP: trumpPrice !== null ? trumpPrice : previousPrices.TRUMP,
               DOGE: dogePrice !== null ? dogePrice : previousPrices.DOGE,
-              ALPACA: ALPACAPrice !== null ? ALPACAPrice : previousPrices.ALPACA,
+              SUI: SUIPrice !== null ? SUIPrice : previousPrices.SUI,
               MEME: MEMEPrice !== null ? MEMEPrice : previousPrices.MEME,
             };
           } catch (error) {
