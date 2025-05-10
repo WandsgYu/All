@@ -184,8 +184,8 @@
         <h1 id="bnb-price">Loading...</h1>
         <h2>BNB</h2>
       </div>
-      <div class="box" id="bgb">
-        <h1 id="bgb-price">Loading...</h1>
+      <div class="box" id="BGB">
+        <h1 id="BGB-price">Loading...</h1>
         <h2>BGB</h2>
       </div>
       <div class="box" id="trump">
@@ -289,7 +289,7 @@
               ethPrice,
               solPrice,
               bnbPrice,
-              bgbPrice,
+              BGBPrice,
               trumpPrice,
               dogePrice,
               SUIPrice,
@@ -329,9 +329,9 @@
                 price: bnbPrice !== null ? Math.floor(bnbPrice) : "Error",
               },
               {
-                id: "bgb",
+                id: "BGB",
                 symbol: "BGB",
-                price: bgbPrice !== null ? bgbPrice.toFixed(3) : "Error",
+                price: BGBPrice !== null ? BGBPrice.toFixed(3) : "Error",
               },
               {
                 id: "trump",
@@ -368,8 +368,8 @@
             });
 
             // 更新标题
-            if (btcPrice !== null && ethPrice !== null && SUIPrice !== null) {
-              document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${MEMEPrice.toFixed(6)}`;
+            if (btcPrice !== null ) {
+              document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${BGBPrice.toFixed(3)}`;
             }
 
             // 保存当前价格用于比较
@@ -378,7 +378,7 @@
               ETH: ethPrice !== null ? ethPrice : previousPrices.ETH,
               SOL: solPrice !== null ? solPrice : previousPrices.SOL,
               BNB: bnbPrice !== null ? bnbPrice : previousPrices.BNB,
-              BGB: bgbPrice !== null ? bgbPrice : previousPrices.BGB,
+              BGB: BGBPrice !== null ? BGBPrice : previousPrices.BGB,
               TRUMP: trumpPrice !== null ? trumpPrice : previousPrices.TRUMP,
               DOGE: dogePrice !== null ? dogePrice : previousPrices.DOGE,
               SUI: SUIPrice !== null ? SUIPrice : previousPrices.SUI,
