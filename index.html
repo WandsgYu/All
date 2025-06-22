@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -321,7 +320,7 @@
               {
                 id: "sol",
                 symbol: "SOL",
-                price: solPrice !== null ? solPrice.toFixed(2) : "Error",
+                price: solPrice !== null ? solPrice.toFixed(1) : "Error",
               },
               {
                 id: "bnb",
@@ -331,7 +330,7 @@
               {
                 id: "BGB",
                 symbol: "BGB",
-                price: BGBPrice !== null ? BGBPrice.toFixed(3) : "Error",
+                price: BGBPrice !== null ? BGBPrice.toFixed(2) : "Error",
               },
               {
                 id: "trump",
@@ -346,7 +345,7 @@
               {
                 id: "SUI",
                 symbol: "SUI",
-                price: SUIPrice !== null ? SUIPrice.toFixed(3) : "Error",
+                price: SUIPrice !== null ? SUIPrice.toFixed(2) : "Error",
               },
               {
                 id: "MEME",
@@ -368,8 +367,10 @@
             });
 
             // 更新标题
-            if (btcPrice !== null ) {
-              document.title = `${Math.floor(btcPrice)} ${Math.floor(ethPrice)} ${BGBPrice.toFixed(3)} ${bnbPrice.toFixed(2)}`;
+            if (btcPrice !== null) {
+              document.title = `${Math.floor(btcPrice)} ${Math.floor(
+                ethPrice
+              )} ${BGBPrice.toFixed(2)} ${bnbPrice.toFixed(0)}`;
             }
 
             // 保存当前价格用于比较
@@ -388,7 +389,7 @@
             console.error("Error updating prices:", error);
           } finally {
             // 无论成功失败都继续轮询
-            setTimeout(updatePrices, 2500);
+            setTimeout(updatePrices, 10000);
           }
         }
 
